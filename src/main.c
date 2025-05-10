@@ -204,6 +204,14 @@ static void uart_actuator_control_task(void *pvParameters)
                 // TODO: Implementasi kedipan LED jika diperlukan
                 send_response_to_rpi("ACK_STATUS_INDICATED");
             }
+            else if (strcmp(command_prefix, "DISPLAY") == 0)
+            {
+                // Untuk perintah DISPLAY, ESP32 hanya akan mencatat apa yang harus ditampilkan
+                // dan mengirim ACK umum. Logika tampilan ada di RPi (LCD Touchscreen).
+                // Jika ESP32 punya display kecil sendiri, bisa di-handle di sini.
+                ESP_LOGI(TAG, "RPi requested DISPLAY: [%s]", command_payload);
+                send_response_to_rpi("ACK_DISPLAY"); // ACK umum untuk semua perintah display
+            }
             else
             {
                 ESP_LOGW(TAG, "Perintah tidak dikenal dari RPi: [%s]", command_full);
